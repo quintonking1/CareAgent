@@ -1,181 +1,276 @@
 # CareAgent
 
-**The care admin agent for families.** CareAgent helps adult children look after an aging parent from a distance. It watches the parent's wearable, explains changes in plain language, and then *does the follow-up work*: it books the doctor's appointment on Zocdoc, puts it on the family calendar, and tells your sibling — with your approval before anything leaves the family.
+**The care admin agent for families.** CareAgent helps adult children look after an aging parent from a distance. It watches the parent's wearable, explains changes in plain language, and then *does the follow-up work*: it books the doctor's appointment on Zocdoc, puts it on the family calendar, and tells your sibling, with your approval before anything leaves the family.
 
-> Class prototype for an AI product prototyping course. **All data is synthetic** and every outside service (Apple Watch, Zocdoc, calendar, notifications) is faked locally. The only real network call is to the OpenAI API. CareAgent does not give medical advice.
+> Class prototype for AI Product Prototyping (Fall 2026). **All data is synthetic** and every outside service (Apple Watch, Zocdoc, calendar, notifications) is faked locally. The only real network call is to the OpenAI API. CareAgent does not give medical advice.
+
+**Contents:** [Slide kit](#slide-kit) · [Run it](#run-it) · [How it works](#how-it-works) · [Tests](#tests) · [Status](#status)
 
 ---
 
-## The problem
+## Slide kit
 
-63 million US adults are family caregivers, and most of them also work. Caregiver apps today stop at the alert: the caregiver still makes the calls, finds the time slot, and chases the refill. New health agents can act, but they're built around *your own* health. CareAgent closes the loop from **signal to action, on behalf of someone you care for**, with their consent.
+Everything below is written to be lifted into Google Slides. Each slide lists the rubric line it covers, then talking points. Items marked **[fill in]** need something only the group has.
 
-**Who it's for**
-- **Maya** (primary caregiver): 35–55, works, lives an hour from her dad. Wants to know "is Dad okay?" in 10 seconds and wants follow-ups handled.
-- **David** (co-caregiver): Maya's brother. Can see everything and approve actions.
-- **Robert** (parent, 75): wears an Apple Watch, has a long-time primary care doctor, and has consented to sharing.
+### Suggested deck
 
-## The demo journey
+| # | Slide | Rubric | Owner |
+|---|---|---|---|
+| 1 | Title + one-liner | — | [fill in] |
+| 2 | The problem | I.A Vision | [fill in] |
+| 3 | Who it's for | I.A Vision | [fill in] |
+| 4 | The market gap | I.A Vision | [fill in] |
+| 5 | Our solution | I.A Vision | [fill in] |
+| 6 | How we used AI to build it | I.A, II.A | [fill in] |
+| 7 | Prompt engineering | I.A, I.C | [fill in] |
+| 8 | Wireframes & information architecture | I.B | [fill in] |
+| 9 | Live prototype | I.C | [fill in] |
+| 10 | Why you can trust it | I.C, II.D | [fill in] |
+| 11 | Limitations & challenges | II.A | [fill in] |
+| 12 | What's next | — | [fill in] |
 
-One customer journey, end to end, in **3 taps after the alert**:
+The final presentation is graded on equal participation (II.C), so split the owners evenly.
 
-1. Robert's watch uploads 5 days of rising resting heart rate.
-2. Rules flag it; **the agent wakes up on its own**, reads the readings, writes a triage summary (75, 76, 78 bpm vs. his usual 64.9), shows a chart, and updates the "Is Robert okay?" line on Overview.
-3. **Tap 1:** Maya taps **Book follow-up**. The agent looks up Robert's doctor, searches Zocdoc, and shows 3 open times as a calendar card.
-4. **Tap 2:** Maya picks Thu Nov 5, 1:00 PM. The agent asks for approval.
-5. **Tap 3:** Maya taps **Approve**. The agent books it on Zocdoc, adds it to the family calendar, notifies David, and shows the appointment card.
-6. Switch to David's view: the booking is in his notifications and on Overview.
+---
 
-Urgent alerts (a fall with no movement afterward) go to a **Call 911 / Call Robert** card instead, never to booking.
+### 1 · Title
 
-## Quick start
+**CareAgent: the care admin agent for families.**
+For adult children managing a parent's health, CareAgent turns the parent's wearable signals into booked appointments and filled prescriptions. Unlike health assistants built around your own data, it acts on behalf of someone you care for, with their consent.
+
+### 2 · The problem
+
+- **63 million** US adults are family caregivers (AARP, 2025). Most also work, and half of working caregivers report disruptions like leaving early or arriving late.
+- Caregiver apps stop at the alert or the to-do. **The caregiver still makes the calls**, finds the time slot, and chases the refill.
+- Core insight: the gap is the loop **from signal to action, run on behalf of another adult.**
+
+### 3 · Who it's for
+
+- **Maya, primary caregiver.** 35–55, employed, lives an hour or more from her dad, often raising kids too. Wants to know "is Dad okay?" in 10 seconds and wants follow-ups handled without spending her lunch break on hold.
+- **David, co-caregiver.** Maya's brother. Sees everything, can approve actions.
+- **Robert, the parent.** 75, wears an Apple Watch, sees a long-time primary care doctor. Wants independence and dignity; must consent to sharing.
+
+### 4 · The market gap
+
+From our competitive analysis (see the companion *Caregiver Health Agent: Competitive Brief* **[fill in link]**):
+
+| Who | What they do | Gap |
+|---|---|---|
+| Caregiver apps | Alerts and to-do lists | Stop before the action |
+| Amazon Health AI, ChatGPT Health, Epic Emmie | Health agents that can act | Built for **your own** health and identity |
+| Wellthy | Acts for caregivers end to end | Human coordinators, **employer-only** |
+
+**Our niche:** an AI agent that takes care-admin actions **for another adult**, inside a family care circle, with consent and approvals.
+
+### 5 · Our solution
+
+A chat-first, mobile-first agent. The conversation is the interface; when it helps, the agent renders buttons, charts, and calendars right in the chat.
+
+1. **Notice.** Rules watch the wearable data (e.g. resting heart rate 15%+ above the 14-day average for 3 days).
+2. **Explain.** The agent investigates and writes a plain-language summary that cites the actual readings, with no diagnoses.
+3. **Act.** It searches Zocdoc, proposes times, and books on approval.
+4. **Coordinate.** It adds the visit to the family calendar and notifies the sibling.
+
+**Success metric:** time from alert to booked appointment. In the prototype it takes **3 taps** after the alert: *Book follow-up → pick a time → Approve.*
+
+### 6 · How we used AI to build it
+
+Our workflow, from idea to working prototype:
+
+1. **Competitive analysis.** We had AI write the research prompt, then used agent skills to run the analysis of the caregiver and health-agent market. **[fill in: tools/skills used]**
+2. **Find the niche.** From that analysis we found the gap: acting on behalf of another adult (slide 4).
+3. **Write the PRD.** We turned the niche into a product requirements doc (`PRD.md`) written to be handed to coding agents: features with acceptance criteria, the agent's tools, the data model, and build milestones in order.
+4. **Build with a coding agent, one phase at a time.** We gave the PRD to Claude Code and built milestone by milestone. At each step the agent flagged open questions, we decided them together, and it verified the work with tests and in the browser before moving on.
+
+**Tools**
+
+| Stage | Tool |
+|---|---|
+| Market research and competitive brief | **[fill in]**, using agent skills |
+| PRD | **[fill in]** |
+| Prototype code | Claude Code |
+| Wireframes | Claude with the Figma connector **[fill in when done]** |
+| The agent inside the app | OpenAI `gpt-4.1-mini` |
+
+**How AI accelerated the process:** **[fill in in your own words]**. Concrete examples from the build:
+- Product pivots took minutes, not days: switching the stack from Python to TypeScript, the UI from bottom tabs to a ChatGPT-style sidebar, and the data from a database to editable JSON files.
+- The coding agent wrote and ran 43 automated tests along the way, including a test proving no outbound network calls happen during booking.
+
+### 7 · Prompt engineering
+
+Two kinds of prompting shaped this project.
+
+**A. Prompting the coding agent (building the app)**
+- **A PRD as the master prompt.** Rather than describing the app in chat, we wrote a PRD with numbered milestones and acceptance criteria and asked the agent to build one milestone at a time and stop for review.
+- **"Flag questions and decide together."** We told the agent to surface open decisions instead of guessing. It asked about pacing, the model, layout, alert handling, storage, and how much the agent may do without asking.
+- **Show, don't describe.** For the interface we pointed the agent at a previous project's repo ("make it like this, but with shadcn") instead of writing a long design spec.
+- **Ask the hard question.** Asking *"is this demo truly agentic, or is it just fake data?"* exposed that the early build was rules and data only, and led to the redesign around one agent that chooses its own tools.
+
+**B. Prompting the agent inside the app**
+What we changed after watching it run, and why:
+
+| What we saw | What we changed |
+|---|---|
+| The agent listed the quick-reply buttons in its text ("Here are some options… please tap") | Added to the system prompt: never restate a card or list the options in text |
+| Text written before a tool call and the final answer both appeared, so replies repeated | Code now treats pre-tool text as a temporary preamble, replaced by the final answer |
+| After booking, it skipped the appointment card and drifted into an unrequested refill rundown | Prompt: "do all three" (calendar, notify, card) and "1–2 sentences, no unrelated topics"; the booking tool also returns the next steps |
+| A prompt alone can't guarantee "no diagnoses" | Code checks every saved summary and every final reply for diagnostic or dosing language, and sends a bad reply back for one rewrite |
+| A model could describe an approval inaccurately | The approval card's text is built by code from real booking data; the model only adds a one-line reason |
+| The model needed to tell people apart from system triggers | Alerts, approvals, and scheduled reviews reach it as `[Automated event] …` messages |
+
+The full system prompt is in `src/agent/system-prompt.ts`; each tool's description is also a prompt (`src/agent/tools.ts`).
+
+### 8 · Wireframes & information architecture
+
+**[fill in: Figma link and screenshots]**. The wireframes cover one journey across these screens:
+
+1. Chat, empty state
+2. Alert arrives (summary, chart, Book follow-up)
+3. Agent working (visible step trace)
+4. Pick a time (calendar card)
+5. Approval card
+6. Booked (appointment card, family calendar, David notified)
+7. Overview ("Is Robert okay?", approvals, appointments, medications)
+
+Edge cases: urgent fall (Call 911, no booking), declined approval, Overview as David, Robert's profile.
+
+**Information architecture**
+```
+Sidebar
+├── Chat (landing)  ← where all actions happen
+├── Overview        ← status line, needs attention, approvals, notifications, appointments, meds
+├── Robert's profile
+└── Viewer switcher: Maya · David · Robert   (Demo controls: dev only)
+```
+
+### 9 · Live prototype
+
+The journey we demo: **watch alert → agent explains → Book follow-up → pick a time → Approve → booked, on the family calendar, David notified.** Then switch to David's view to show his notification.
+
+Points to make while demoing:
+- The **"Worked for 5s · 6 steps"** trace shows the agent choosing its own tools; nothing is scripted.
+- The agent woke up **on its own** when the alert fired.
+- The approval card is the **only** way anything leaves the family.
+
+### 10 · Why you can trust it
+
+- **Approvals are enforced in code, not just the prompt.** The booking tool refuses to run without an approved approval, books exactly what was approved, and only once.
+- **Rules detect, the AI explains.** The model never decides whether something is an alert.
+- **Wellness language only.** Diagnostic or dosing language is blocked in code.
+- **Urgent means call, not book.** A fall with no movement shows Call 911 / Call Robert and never a booking button.
+- **Consent first.** If Robert revokes consent, every action is blocked; his consent can also require his own approval for bookings.
+- **Proven by tests.** 43 automated tests, including a full alert-to-booking run with all network calls blocked.
+
+### 11 · Limitations & challenges
+
+Real ones we hit, useful for slide 11 and Q&A:
+
+- **AI builds what you say, not what you mean.** The first interface was a conventional dashboard. We had to redirect twice (chat-first and mobile-first, then the VisionCart-style layout). Clear references beat descriptions.
+- **"Working" isn't the same as "agentic."** The early build had no AI calls at all, just data and rules. We only caught it by asking directly.
+- **LLM output needs supervision.** It repeated itself, skipped steps, and over-explained (slide 7). Each fix was a prompt change, a code guardrail, or both.
+- **Speed and variability.** Each agent turn takes about 2–8 seconds, and the wording changes run to run, which makes live demos less predictable.
+- **Safety can't live in the prompt alone.** Anything that must hold every time (approvals, no diagnoses) had to be enforced in code.
+- **Coding agents act in your environment.** At one point the coding agent stopped a teammate's running dev server while restarting its own. It's powerful but needs review and sensible permissions.
+- **Hosting has trade-offs.** The prototype stores data in local files, which serverless hosts like Vercel can't keep, so we demo it locally.
+
+### 12 · What's next
+
+- Refills through a pharmacy, with status tracking (requested → ready → picked up)
+- Medication changes pulled from a pasted visit summary, shown as a side-by-side diff to confirm
+- A one-page pre-visit brief for the doctor
+- Messaging the doctor's office (e.g. when a refill needs the prescriber's OK)
+- Real integrations: the Zocdoc agent program, Apple HealthKit, a pharmacy partner
+- Before real use: HIPAA posture, clinician review of alert thresholds, and FDA review of the alert logic
+
+### Q&A prep
+
+- **Is it really an agent, or a scripted flow?** One model, one loop, 19 tools. Every message, button tap, alert, and approval goes to the same loop, and the model picks the tools. The step trace on every reply shows it.
+- **What stops it from booking on its own?** The booking tool checks for an approved approval in code and refuses otherwise. We tested premature booking attempts.
+- **Why rules for alerts instead of AI?** Thresholds need to be predictable and testable. The AI's job is to explain and act, not to decide what counts as a health alert.
+- **Is this medical advice?** No. It describes changes in readings, never diagnoses, and every summary says "This is not medical advice."
+- **What's real and what's fake?** The agent and its reasoning are real (live OpenAI calls). The watch, Zocdoc, calendar, and notifications are local fakes behind the same interfaces a real integration would use.
+- **Why OpenAI `gpt-4.1-mini`?** A small, fast, inexpensive model with reliable tool calling is enough when the tools and code guardrails do the heavy lifting.
+- **What if the doctor has no openings?** The agent says so, gives the next available date, and offers another in-network doctor (Dr. Lee in cardiology has nothing for 18 days).
+- **What about the parent's privacy?** Robert consents to what's shared, can require his own approval for bookings, and can revoke consent, which blocks all actions.
+
+---
+
+## Run it
 
 Requires Node 20.12+ (developed on Node 24) and an OpenAI API key.
 
 ```bash
 npm install
-cp .env.example .env        # then add your OPENAI_API_KEY
-npm run db:seed             # creates careagent.db with the demo family + 30 days of watch data
+cp .env.example .env        # add your OPENAI_API_KEY
+npm run db:seed             # demo family + 30 days of watch data
 npm run dev                 # http://localhost:3000
 ```
 
-Then open **Demo controls** (sidebar footer menu → Demo controls, or `/demo`) and trigger **Rising resting heart rate**. Without an API key the app still runs: alerts are posted with their rule description, and chat shows that the agent is offline.
+Open **Demo controls** (sidebar footer menu → Demo controls, or `/demo`) and trigger **Rising resting heart rate**. The agent posts the alert in Chat. Use **Reset demo data** to start over. For a phone-sized view, use Chrome DevTools' device toolbar.
 
-**Tip for presenting:** open Chrome DevTools' device toolbar (iPhone 14) — the app is designed mobile-first, and the sidebar becomes a drawer on small screens.
-
-### Environment
+Without an API key the app still runs: alerts are posted with their rule description and chat shows that the agent is offline.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `OPENAI_API_KEY` | — | Required for the agent. Server-side only; never sent to the browser. |
+| `OPENAI_API_KEY` | — | Required for the agent. Server-side only. |
 | `OPENAI_MODEL` | `gpt-4.1-mini` | Any OpenAI chat model with tool calling. |
 | `DATABASE_URL` | `careagent.db` | SQLite file for app state. |
 
-`.env` is gitignored.
-
-### Scripts
-
 | Command | What it does |
 |---|---|
-| `npm run dev` | Start the app. |
-| `npm run db:seed` | Reset everything: demo family, 30 days of readings, and all fake-service state (bookings, calendar, notifications). Same as **Reset demo data** on `/demo`. |
-| `npm test` | Run the test suite (no network; the model is scripted). |
-| `npm run db:generate` | Regenerate the SQL migration after editing `src/db/schema.ts`. |
+| `npm run dev` | Start the app |
+| `npm run db:seed` | Reset all demo data, including fake-service state |
+| `npm test` | Run the tests (no network) |
+| `npm run db:generate` | Regenerate the migration after editing `src/db/schema.ts` |
 
 ## How it works
 
-### One agent, many tools
+**One agent, one loop** (`src/agent/careagent.ts`). Chat messages, tapped buttons, alerts, approvals, and the daily review all become input to the same tool-use loop; the model chooses the tools. Replies stream to the browser with a step trace.
 
-CareAgent is a **single agent with one tool-use loop** (`src/agent/careagent.ts`). There are no scripted flows: every trigger becomes input to the same loop, and the model decides which tools to call.
-
-| Trigger | Input to the agent |
-|---|---|
-| A chat message, or a tapped button / quick reply / time slot | The family member's message |
-| A rule fires on new watch data | `[Automated event] Alert #1 fired: …` |
-| Someone taps Approve or Decline | `[Automated event] Maya Hayes approved approval #1 …` |
-| Daily review (button on `/demo`) | `[Automated event] Scheduled daily review …` |
-
-Every reply shows a collapsible trace ("Worked for 4s · 5 steps") listing the tools the agent chose, so you can see it acting rather than following a script. Replies stream token by token.
-
-**Tools** (`src/agent/tools.ts`)
-
-| Kind | Tools |
+| Kind | Tools (`src/agent/tools.ts`) |
 |---|---|
 | Read | `get_care_profile`, `get_readings`, `get_alerts`, `get_medications`, `get_appointments`, `get_providers`, `zocdoc_search_slots` |
 | Write (internal) | `save_alert_summary`, `save_status_line` |
 | Ask a person | `request_approval` |
 | Act (approval required) | `zocdoc_book_appointment`, `zocdoc_cancel_appointment` |
-| Family (inside the care circle) | `add_to_family_calendar`, `notify_care_circle` |
-| Render UI in the chat | `show_alert_card`, `show_trend_chart`, `show_slot_picker`, `show_appointment_card`, `show_quick_replies` |
+| Family | `add_to_family_calendar`, `notify_care_circle` |
+| Render in chat | `show_alert_card`, `show_trend_chart`, `show_slot_picker`, `show_appointment_card`, `show_quick_replies` |
 
-The render tools are how the agent puts **buttons, charts and calendars** into the conversation. The chat *is* the interface; Overview and Robert's profile are supporting pages.
+**The approval gate** (`src/lib/approvals.ts`). External tools call `requireApproved()` and act only on the approved payload. A caregiver must approve, plus Robert when his consent requires it; any decline wins; revoked consent blocks everything.
 
-### Guardrails live in code, not just the prompt
+**Fake services as JSON files.** The agent reaches each service through an adapter, as it would a real API:
 
-- **Approval gate.** External tools call `requireApproved()` (`src/lib/approvals.ts`) and refuse to run without an approved approval for that exact action. They act on the *approved payload*, not on whatever the model passes, and an approval can be used once.
-- **Approval cards are written by code** from real data (time, address, in-network check), so the model can't misdescribe what you're approving.
-- **Who can approve:** a caregiver (Maya or David); if Robert's consent says bookings need his approval, Robert too. Any decline wins. Revoked consent blocks all actions.
-- **Wellness language.** Text the agent saves or sends is checked for diagnostic or dosing language and rejected; a final reply that diagnoses is sent back for one rewrite. Triage summaries are capped at 120 words and always end with "This is not medical advice."
-- **Rules detect, the agent explains.** Alert thresholds are deterministic (`src/rules/alerts.ts`); the model never decides whether something is an alert.
-- **15 tool calls per run**, then the run stops and says so.
-- **Urgent alerts never offer booking.**
-
-### Fake services backed by JSON files
-
-The agent reaches every outside service through an adapter, exactly as it would a real API. The data behind them is plain JSON you can open and edit:
-
-| Service | Seed (committed, hand-editable) | State (written by the service, reset with the demo) |
+| Service | Seed (committed, editable) | State (reset with the demo) |
 |---|---|---|
 | Apple Watch / WHOOP | generated by a simulator | `data/fakes/state/wearables/apple_health.json` |
-| Zocdoc | `data/fakes/zocdoc.json`: doctors, accepted insurance, weekly hours | `data/fakes/state/zocdoc_bookings.json` |
+| Zocdoc | `data/fakes/zocdoc.json` | `data/fakes/state/zocdoc_bookings.json` |
 | Family calendar | — | `data/fakes/state/family_calendar.json` |
-| Push notifications | — | `data/fakes/state/outbox.json` |
+| Notifications | — | `data/fakes/state/outbox.json` |
 
-Try it: edit a reading in the watch file and press **Sync from device file** on `/demo`, or change Dr. Patel's hours in `zocdoc.json` and ask the agent to book. Dr. Marcus Lee (cardiology) has nothing for 18 days, and Dr. Samuel Ortiz doesn't take Robert's insurance, so you can see the agent handle both.
+App state (chat, alerts, approvals, appointments, medications) is in SQLite.
 
-App state (chat, alerts, approvals, appointments, medications) lives in SQLite via Drizzle.
-
-## Tech stack
-
-- **Next.js 15** (App Router), **TypeScript**, React 19
-- **shadcn/ui** (Radix, Nova preset) + Tailwind CSS 4; ChatGPT-style layout with light/dark mode
-- **OpenAI** Chat Completions with tool calling (`gpt-4.1-mini` by default), streamed as NDJSON from `/api/chat` and `/api/approvals`
-- **SQLite** (better-sqlite3) + **Drizzle ORM**
-- **Vitest** for tests
-
-## Project structure
+**Stack:** Next.js 15, TypeScript, shadcn/ui + Tailwind CSS 4, OpenAI tool calling, SQLite + Drizzle ORM, Vitest.
 
 ```
-src/
-  agent/        careagent.ts (the tool loop), tools.ts, system-prompt.ts, safety.ts,
-                events.ts (alerts / approvals / daily review wake the agent), llm.ts
-  app/          pages: / (chat), /home (Overview), /profile, /demo; api/chat, api/approvals
-  components/   chat UI (messages, trace, cards), sidebar, shadcn ui/
-  db/           schema.ts, seed.ts
-  fakes/        wearables.ts, zocdoc.ts, family-calendar.ts, messaging.ts, store.ts
-  lib/          approvals.ts (the gate), ingest.ts (watch sync), thread.ts, blocks.ts, clock.ts
-  rules/        alerts.ts (rule engine)
-data/fakes/     zocdoc.json (seed) and state/ (generated, gitignored)
-tests/          agent, alerts, booking, wearables, seed
-PRD.md          product requirements
+src/agent/    the loop, tools, system prompt, safety checks, event triggers
+src/app/      pages (Chat, Overview, Profile, Demo) and API routes
+src/fakes/    wearables, Zocdoc, family calendar, messaging
+src/lib/      approval gate, watch sync, chat thread, shared types
+src/rules/    alert rules
+tests/        43 tests with a scripted model
+PRD.md        product requirements
 ```
 
 ## Tests
 
-```bash
-npm test
-```
-
-43 tests, no network. The agent tests use a scripted model (`tests/scripted-llm.ts`) to check the loop itself:
-
-- the model chooses tools and sees their results; render tools attach cards
-- an alert event leads to a saved triage summary and status line
-- diagnostic language is rejected; over-long summaries are rejected; a diagnosing reply is rewritten
-- the 15-call cap; unknown tools and bad arguments come back as errors instead of crashing
-- the booking tool refuses without approval, while pending, after decline, for the wrong action, or after revoked consent; it books exactly the approved slot, once
-- parent approval when consent requires it
-- the full alert → slots → approval → booked → calendar → David notified journey, with `fetch`, `http` and `https` stubbed to fail, proving **no outbound HTTP** during booking
+`npm test` runs 43 tests with no network access. The agent tests use a scripted model to check the loop, the safety checks, the 15-call cap, the approval gate (no approval, pending, declined, wrong action, revoked consent, used twice), parent approval, and the full alert → booked → calendar → David notified journey with all network calls blocked.
 
 ## Status
 
-**Built**
-- Care circle with roles and a viewer switcher (Maya, David, Robert)
-- Fake wearables, 30-day history, 5 demo scenarios, rule-based alerts
-- Chat-first agent: triage summaries, status line, charts, quick replies
-- Approvals, Zocdoc search / book / cancel, family calendar, care-circle notifications
-- Overview (status, approvals, notifications, appointments, medications) and Robert's profile
+**Built:** care circle and viewer switcher; fake wearables and alert rules; chat-first agent with summaries, charts, and the Overview status line; approvals; Zocdoc search, book, and cancel; family calendar; care-circle notifications; Overview and Robert's profile.
 
-**Next**
-- Refills through a fake pharmacy, with status tracking
-- Medication changes extracted from a pasted visit summary (side-by-side diff, confirm to save)
-- Pre-visit brief for the doctor (printable, one page)
-- Messaging the doctor's office through a fake patient portal
-- Consent revoke flow in the UI; scheduled daily review
-
-## Built with AI
-
-This prototype was built with **Claude Code** from `PRD.md`, iterating milestone by milestone: Claude flagged open questions, we decided them together, and each step was verified with tests and in the browser. The agent inside the app runs on **OpenAI `gpt-4.1-mini`**. A collection of the prompts we used (to build the app and to shape the agent's behavior) is planned under `docs/prompts/`.
+**Next:** refills, medication changes from visit summaries, the pre-visit brief, messaging the doctor's office, and a consent-revoke flow in the UI.
 
 ## Disclaimer
 
-CareAgent is a class prototype. It uses synthetic data only, makes no real bookings or calls, and does not provide medical advice. In an emergency, call 911.
+A class prototype. Synthetic data only, no real bookings or calls, and no medical advice. In an emergency, call 911.
