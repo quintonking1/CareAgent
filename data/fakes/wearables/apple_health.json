@@ -1,0 +1,607 @@
+{
+  "device": "Apple Watch (simulated)",
+  "owner": "Robert Hayes",
+  "source": "apple_health",
+  "readings": [
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 62,
+      "recordedAt": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.7,
+      "recordedAt": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5091,
+      "recordedAt": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 34,
+      "recordedAt": "2026-10-04T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 61,
+      "recordedAt": "2026-10-04T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.7,
+      "recordedAt": "2026-10-04T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5003,
+      "recordedAt": "2026-10-04T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 32,
+      "recordedAt": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 62,
+      "recordedAt": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.9,
+      "recordedAt": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6782,
+      "recordedAt": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 32,
+      "recordedAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.6,
+      "recordedAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5905,
+      "recordedAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-07T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-07T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.1,
+      "recordedAt": "2026-10-07T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4658,
+      "recordedAt": "2026-10-07T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.5,
+      "recordedAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5904,
+      "recordedAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 64,
+      "recordedAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.7,
+      "recordedAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 7356,
+      "recordedAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 37,
+      "recordedAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 61,
+      "recordedAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.2,
+      "recordedAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4755,
+      "recordedAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 32,
+      "recordedAt": "2026-10-11T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 66,
+      "recordedAt": "2026-10-11T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.8,
+      "recordedAt": "2026-10-11T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6203,
+      "recordedAt": "2026-10-11T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 34,
+      "recordedAt": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.6,
+      "recordedAt": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4754,
+      "recordedAt": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 32,
+      "recordedAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.6,
+      "recordedAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5014,
+      "recordedAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 68,
+      "recordedAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.3,
+      "recordedAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5061,
+      "recordedAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 66,
+      "recordedAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.6,
+      "recordedAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6651,
+      "recordedAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 30,
+      "recordedAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.8,
+      "recordedAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5818,
+      "recordedAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 33,
+      "recordedAt": "2026-10-17T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 66,
+      "recordedAt": "2026-10-17T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.3,
+      "recordedAt": "2026-10-17T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4372,
+      "recordedAt": "2026-10-17T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 35,
+      "recordedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 64,
+      "recordedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.3,
+      "recordedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4378,
+      "recordedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.9,
+      "recordedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6402,
+      "recordedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 36,
+      "recordedAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.1,
+      "recordedAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5295,
+      "recordedAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-21T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-21T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.7,
+      "recordedAt": "2026-10-21T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4707,
+      "recordedAt": "2026-10-21T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.8,
+      "recordedAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5275,
+      "recordedAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 64,
+      "recordedAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.3,
+      "recordedAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6353,
+      "recordedAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.7,
+      "recordedAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4073,
+      "recordedAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 34,
+      "recordedAt": "2026-10-25T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-25T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6,
+      "recordedAt": "2026-10-25T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5228,
+      "recordedAt": "2026-10-25T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 29,
+      "recordedAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 5.6,
+      "recordedAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6585,
+      "recordedAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 33,
+      "recordedAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 66,
+      "recordedAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.7,
+      "recordedAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 7120,
+      "recordedAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 35,
+      "recordedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 62,
+      "recordedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.6,
+      "recordedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 6307,
+      "recordedAt": "2026-10-28T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 27,
+      "recordedAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 63,
+      "recordedAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.3,
+      "recordedAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5257,
+      "recordedAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 64,
+      "recordedAt": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 7.9,
+      "recordedAt": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5334,
+      "recordedAt": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 34,
+      "recordedAt": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 64,
+      "recordedAt": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.6,
+      "recordedAt": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 5355,
+      "recordedAt": "2026-10-31T00:00:00.000Z"
+    },
+    {
+      "metric": "hrv",
+      "value": 31,
+      "recordedAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "metric": "resting_hr",
+      "value": 65,
+      "recordedAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "metric": "sleep_hours",
+      "value": 6.4,
+      "recordedAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "metric": "steps",
+      "value": 4621,
+      "recordedAt": "2026-11-01T00:00:00.000Z"
+    }
+  ]
+}

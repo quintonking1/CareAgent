@@ -1,0 +1,47 @@
+{
+  "_about": "Fake Zocdoc directory (synthetic). Edit freely: weekly hours, accepted insurance, how busy each doctor is. Open slots are generated from these hours for the next 60 days; bookings are recorded in data/fakes/state/zocdoc_bookings.json.",
+  "timezone": "America/Los_Angeles",
+  "providers": [
+    {
+      "id": "zd_pcp_001",
+      "name": "Dr. Anita Patel",
+      "specialty": "Primary Care",
+      "address": "2801 K St, Suite 200, Sacramento, CA",
+      "accepts": ["Blue Shield PPO", "Aetna PPO", "Medicare"],
+      "visit_minutes": 30,
+      "hours": { "tue": ["09:00", "12:00"], "thu": ["13:00", "16:00"], "fri": ["09:00", "11:00"] },
+      "busy": 0.6
+    },
+    {
+      "id": "zd_pcp_002",
+      "name": "Dr. Samuel Ortiz",
+      "specialty": "Primary Care",
+      "address": "1650 Response Rd, Sacramento, CA",
+      "accepts": ["Kaiser HMO", "Medicare"],
+      "visit_minutes": 20,
+      "hours": { "mon": ["08:00", "12:00"], "wed": ["08:00", "12:00"] },
+      "busy": 0.4
+    },
+    {
+      "id": "zd_cardio_001",
+      "name": "Dr. Marcus Lee",
+      "specialty": "Cardiology",
+      "address": "5151 F St, Sacramento, CA",
+      "accepts": ["Blue Shield PPO", "Medicare"],
+      "visit_minutes": 40,
+      "hours": { "mon": ["13:00", "17:00"], "wed": ["09:00", "12:00"] },
+      "busy": 0.5,
+      "first_available_in_days": 18
+    },
+    {
+      "id": "zd_cardio_002",
+      "name": "Dr. Priya Raman",
+      "specialty": "Cardiology",
+      "address": "3160 Folsom Blvd, Sacramento, CA",
+      "accepts": ["Blue Shield PPO", "Aetna PPO"],
+      "visit_minutes": 30,
+      "hours": { "tue": ["13:00", "17:00"], "thu": ["09:00", "12:00"] },
+      "busy": 0.5
+    }
+  ]
+}
