@@ -7,6 +7,20 @@ export interface ChartPoint {
   date: string;
 }
 
+// One metric's recent trend against the parent's own baseline (Overview page and chat).
+export interface VitalSummary {
+  metric: string;
+  label: string;
+  unit: string;
+  points: ChartPoint[];
+  latest: number;
+  baseline: number;
+  deltaPct: number;
+  flagged: boolean;
+  // From the open alert on this metric, if any: its readings, threshold and plain-language evidence.
+  alert?: { id: number; label: string; description: string; highlight: number[]; threshold?: number };
+}
+
 export type Block =
   | {
       type: "alert";
@@ -33,6 +47,7 @@ export type Block =
       highlight: number[];
       caption?: string;
     }
+  | { type: "health_overview"; parentName: string; caption?: string; vitals: VitalSummary[] }
   | { type: "quick_replies"; options: string[] }
   | {
       type: "slots";

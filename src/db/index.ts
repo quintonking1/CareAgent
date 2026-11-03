@@ -17,8 +17,11 @@ export function createDb(file: string) {
 
 const globalForDb = globalThis as unknown as { __db?: Db };
 
+// Vercel's filesystem is read-only except /tmp, so default there when deployed (state resets per instance).
+const defaultDbFile = () => (process.env.VERCEL ? "/tmp/careagent.db" : "careagent.db");
+
 export function getDb(): Db {
-  globalForDb.__db ??= createDb(process.env.DATABASE_URL ?? "careagent.db");
+  globalForDb.__db ??= createDb(process.env.DATABASE_URL ?? defaultDbFile());
   return globalForDb.__db;
 }
 

@@ -6,7 +6,9 @@ import path from "node:path";
 //   data/fakes/state/**.json what the services have "recorded" (bookings, calendar, outbox); reset with the demo
 
 export const seedDir = () => path.join(process.cwd(), "data", "fakes");
-export const stateDir = () => process.env.FAKES_STATE_DIR || path.join(seedDir(), "state");
+// On Vercel only /tmp is writable, so fake-service state lives there when deployed.
+export const stateDir = () =>
+  process.env.FAKES_STATE_DIR || (process.env.VERCEL ? "/tmp/careagent-fakes" : path.join(seedDir(), "state"));
 export const statePath = (name: string) => path.join(stateDir(), name);
 
 export function readJson<T>(file: string, fallback: T): T {
