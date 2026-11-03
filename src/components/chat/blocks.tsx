@@ -7,6 +7,7 @@ import { dismissAlert } from "@/app/actions";
 import { EmergencyPrompt } from "@/components/emergency-prompt";
 import { SeverityBadge } from "@/components/severity-badge";
 import { Sparkline } from "@/components/Sparkline";
+import { VitalsGrid } from "@/components/vitals-grid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -24,8 +25,8 @@ const dayParts = (iso: string, timeZone: string) => {
 function DateTile({ iso, timeZone }: { iso: string; timeZone: string }) {
   const p = dayParts(iso, timeZone);
   return (
-    <div className="flex w-12 shrink-0 flex-col items-center rounded-xl border bg-muted/40 py-1.5 leading-tight">
-      <span className="text-[10px] font-medium uppercase text-destructive">{p.month}</span>
+    <div className="flex w-12 shrink-0 flex-col items-center rounded-xl border bg-background py-1.5 leading-tight">
+      <span className="text-[10px] font-medium uppercase text-primary">{p.month}</span>
       <span className="text-lg font-semibold">{p.day}</span>
       <span className="text-[10px] text-muted-foreground">{p.weekday}</span>
     </div>
@@ -40,7 +41,7 @@ function SlotsBlock({ block, onSend, interactive }: { block: Extract<Block, { ty
     days.set(k, [...(days.get(k) ?? []), o]);
   }
   return (
-    <div className="rounded-2xl border p-4">
+    <div className="rounded-2xl border bg-card p-4">
       <div className="flex items-center gap-2 text-sm font-medium"><CalendarPlus className="size-4" /> Open times</div>
       {block.note && <p className="mt-0.5 text-xs text-muted-foreground">{block.note}</p>}
       <div className="mt-3 flex flex-col gap-3">
@@ -77,7 +78,7 @@ function ApprovalBlock({ block, onDecide, enabled }: { block: Extract<Block, { t
   const declinedBy = block.decisions.find((d) => d.decision === "decline")?.name.split(" ")[0];
   const first = block.parentName.split(" ")[0];
   return (
-    <div className={`rounded-2xl border-2 p-4 ${pending ? "border-foreground/80" : "opacity-80"}`}>
+    <div className={`rounded-2xl border-2 bg-card p-4 ${pending ? "border-primary/70 shadow-[0_4px_20px_oklch(0.38_0.065_10/0.10)]" : "opacity-80"}`}>
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Needs your approval</span>
         {!pending && (
@@ -86,7 +87,7 @@ function ApprovalBlock({ block, onDecide, enabled }: { block: Extract<Block, { t
           </Badge>
         )}
       </div>
-      <p className="mt-1 font-medium">{block.title}</p>
+      <p className="mt-1 font-heading text-xl leading-snug">{block.title}</p>
       <ul className="mt-1 space-y-0.5 text-sm text-muted-foreground">{block.lines.map((l) => <li key={l}>{l}</li>)}</ul>
       {block.reason && <p className="mt-2 text-sm">{block.reason}</p>}
       {block.parentRequired && <p className="mt-2 text-xs text-muted-foreground">{first} has asked to approve bookings too.</p>}
@@ -109,7 +110,7 @@ function AppointmentBlock({ block, onSend, interactive }: { block: Extract<Block
   const p = dayParts(block.startAt, block.timeZone);
   const cancelled = block.status === "cancelled";
   return (
-    <div className={`rounded-2xl border p-4 ${cancelled ? "opacity-60" : ""}`}>
+    <div className={`rounded-2xl border bg-card p-4 ${cancelled ? "opacity-60" : ""}`}>
       <div className="flex gap-3">
         <DateTile iso={block.startAt} timeZone={block.timeZone} />
         <div className="min-w-0 flex-1">
@@ -154,7 +155,7 @@ function AlertBlock({ block, onSend, interactive }: { block: Extract<Block, { ty
   });
 
   return (
-    <div className={`rounded-2xl border p-4 ${resolved ? "opacity-60" : ""}`}>
+    <div className={`rounded-2xl border bg-card p-4 ${resolved ? "opacity-60" : ""}`}>
       <div className="flex flex-wrap items-center gap-2">
         <SeverityBadge severity={block.severity} />
         <span className="text-sm font-medium">{block.label}</span>
@@ -201,12 +202,23 @@ function AlertBlock({ block, onSend, interactive }: { block: Extract<Block, { ty
 
 function TrendBlock({ block }: { block: Extract<Block, { type: "trend" }> }) {
   return (
-    <div className="rounded-2xl border p-4">
+    <div className="rounded-2xl border bg-card p-4">
       <div className="text-sm font-medium">{block.label}</div>
       {block.caption && <p className="text-xs text-muted-foreground">{block.caption}</p>}
       <div className="mt-2">
         <Sparkline points={block.points} highlight={block.highlight} label={`${block.points.length} days · ${block.unit}`} />
       </div>
+    </div>
+  );
+}
+
+function HealthOverviewBlock({ block }: { block: Extract<Block, { type: "health_overview" }> }) {
+  const first = block.parentName.split(" ")[0];
+  return (
+    <div className="rounded-2xl border bg-card p-4">
+      <div className="text-sm font-medium">How {first}&apos;s been</div>
+      <p className="text-xs text-muted-foreground">{block.caption ?? `All of ${first}'s watch data, compared with ${first}'s usual (grey line).`}</p>
+      <VitalsGrid vitals={block.vitals} className="mt-3" />
     </div>
   );
 }
@@ -221,6 +233,7 @@ export function BlockView({ block, onSend, onDecide, interactive, idle }: {
 }) {
   if (block.type === "alert") return <AlertBlock block={block} onSend={onSend} interactive={interactive} />;
   if (block.type === "trend") return <TrendBlock block={block} />;
+  if (block.type === "health_overview") return <HealthOverviewBlock block={block} />;
   if (block.type === "slots") return <SlotsBlock block={block} onSend={onSend} interactive={interactive} />;
   // Approvals stay actionable wherever they are in the thread until decided.
   if (block.type === "approval") return <ApprovalBlock block={block} onDecide={onDecide} enabled={idle} />;
@@ -229,7 +242,7 @@ export function BlockView({ block, onSend, onDecide, interactive, idle }: {
   return (
     <div className="flex flex-wrap gap-2">
       {block.options.map((o) => (
-        <Button key={o} variant="outline" size="sm" className="h-auto rounded-full px-3.5 py-1.5 font-normal text-muted-foreground hover:text-foreground"
+        <Button key={o} variant="outline" size="sm" className="h-auto rounded-full border-transparent bg-chip px-3.5 py-1.5 font-normal text-foreground/80 shadow-[0_1px_2px_oklch(0.3_0.02_50/0.06)] hover:bg-card hover:text-foreground"
           onClick={() => onSend(o)}>
           {o}
         </Button>

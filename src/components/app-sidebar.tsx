@@ -1,16 +1,17 @@
 "use client";
 
+import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, ChevronsUpDown, FlaskConical, HeartPulse, House, MessageSquare, UserRound } from "lucide-react";
-import { setViewer } from "@/app/actions";
+import { Check, ChevronsUpDown, FlaskConical, HeartPulse, House, MessageSquare, RotateCcw, UserRound } from "lucide-react";
+import { resetDemo, setViewer } from "@/app/actions";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuBadge,
-  SidebarMenuButton, SidebarMenuItem, useSidebar,
+  SidebarGroupLabel, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar";
 
 export interface Member {
@@ -20,9 +21,9 @@ export interface Member {
 }
 
 const COLORS: Record<string, string> = {
-  primary_caregiver: "bg-violet-600",
-  co_caregiver: "bg-cyan-600",
-  parent: "bg-emerald-600",
+  primary_caregiver: "bg-[#6b4550]",
+  co_caregiver: "bg-[#5f7468]",
+  parent: "bg-[#a2694c]",
 };
 const initials = (name: string) => name.split(" ").map((p) => p[0]).join("");
 const roleName = (role: string) => role.replace("_", " ").replace(/^\w/, (c) => c.toUpperCase());
@@ -34,6 +35,34 @@ export function MemberAvatar({ member, className = "size-8" }: { member: Member;
         {initials(member.name)}
       </AvatarFallback>
     </Avatar>
+  );
+}
+
+// Wipes chat, alerts, approvals and fake-service state back to the seeded demo.
+// The first click arms it; a second click within a few seconds resets.
+function ResetDemoButton({ onDone }: { onDone: () => void }) {
+  const [armed, setArmed] = useState(false);
+  const [pending, start] = useTransition();
+  useEffect(() => {
+    if (!armed) return;
+    const t = setTimeout(() => setArmed(false), 4000);
+    return () => clearTimeout(t);
+  }, [armed]);
+
+  return (
+    <SidebarMenuButton
+      disabled={pending}
+      className={armed ? "text-destructive hover:text-destructive" : "text-muted-foreground"}
+      onClick={() => {
+        if (!armed) return setArmed(true);
+        setArmed(false);
+        onDone();
+        start(() => resetDemo());
+      }}
+    >
+      <RotateCcw className={pending ? "animate-spin [animation-direction:reverse]" : ""} />
+      <span>{pending ? "Resetting…" : armed ? "Tap again to reset" : "Reset demo"}</span>
+    </SidebarMenuButton>
   );
 }
 
@@ -60,11 +89,11 @@ export function AppSidebar({ parentName, openAlerts, viewer, members }: {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
               <Link href="/" onClick={close}>
-                <div className="flex size-8 items-center justify-center rounded-lg bg-foreground text-background">
+                <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <HeartPulse className="size-4" />
                 </div>
                 <div className="leading-tight">
-                  <div className="font-semibold">CareAgent</div>
+                  <div className="font-heading text-lg leading-none">CareAgent</div>
                   <div className="text-xs text-muted-foreground">Caring for {parentName}</div>
                 </div>
               </Link>
@@ -87,6 +116,14 @@ export function AppSidebar({ parentName, openAlerts, viewer, members }: {
                 {item.badge ? <SidebarMenuBadge className="rounded-full bg-destructive text-white">{item.badge}</SidebarMenuBadge> : null}
               </SidebarMenuItem>
             ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupLabel>Demo</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <ResetDemoButton onDone={close} />
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

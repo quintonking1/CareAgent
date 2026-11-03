@@ -35,7 +35,7 @@ export default function ProfilePage() {
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 pb-8 pt-2 sm:px-6">
           <div className="flex flex-col items-center py-4">
             {parent && <MemberAvatar member={parent} className="size-20 text-2xl" />}
-            <h2 className="mt-3 text-xl font-semibold">{profile.parentName}</h2>
+            <h2 className="mt-3 font-heading text-2xl">{profile.parentName}</h2>
             <p className="text-sm text-muted-foreground">{age} years old</p>
           </div>
 

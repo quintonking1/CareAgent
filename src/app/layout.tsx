@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import { and, eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getCurrentProfile } from "@/lib/profile";
@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     .where(and(eq(schema.alerts.careProfileId, profile.id), eq(schema.alerts.status, "open"))).all().length;
 
   return (
-    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
       <body className="bg-background text-foreground antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <TooltipProvider>

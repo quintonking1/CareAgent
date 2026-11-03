@@ -122,7 +122,7 @@ export function Chat({ initialMessages, viewerName, parentName, suggestions, onl
 
   const composer = (
     <form className="mx-auto w-full max-w-3xl" onSubmit={(e) => { e.preventDefault(); send(); }}>
-      <div className="flex flex-col gap-1.5 rounded-[28px] border bg-background p-2.5 pl-4 shadow-sm">
+      <div className="flex flex-col gap-1.5 rounded-[28px] border bg-card p-2.5 pl-4 shadow-[0_2px_12px_oklch(0.3_0.02_50/0.06)]">
         <Textarea
           ref={inputRef}
           rows={1}
@@ -146,11 +146,11 @@ export function Chat({ initialMessages, viewerName, parentName, suggestions, onl
   if (empty) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-6 px-4 pb-16">
-        <h2 className="text-center text-2xl font-medium tracking-tight sm:text-3xl">How can I help with {first} today, {viewerName.split(" ")[0]}?</h2>
+        <h2 className="text-balance text-center font-heading text-3xl font-normal tracking-tight sm:text-4xl">How can I help with {first} today, {viewerName.split(" ")[0]}?</h2>
         {composer}
         <div className="flex max-w-3xl flex-wrap justify-center gap-2">
           {suggestions.map((s) => (
-            <Button key={s} variant="outline" className="h-auto rounded-full px-4 py-2 font-normal text-muted-foreground hover:text-foreground" onClick={() => send(s)}>
+            <Button key={s} variant="outline" className="h-auto rounded-full border-transparent bg-chip px-4 py-2 font-normal text-foreground/80 shadow-[0_1px_2px_oklch(0.3_0.02_50/0.06)] hover:bg-card hover:text-foreground" onClick={() => send(s)}>
               {s}
             </Button>
           ))}

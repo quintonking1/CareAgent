@@ -30,6 +30,7 @@ export interface RunOptions {
 function blockSummary(b: Block) {
   if (b.type === "alert") return `alert card #${b.alertId} (${b.label})`;
   if (b.type === "trend") return `${b.label.toLowerCase()} chart`;
+  if (b.type === "health_overview") return `health overview charts (${b.vitals.map((v) => v.label.toLowerCase()).join(", ")})`;
   if (b.type === "slots") return `slot picker: ${b.options.map((o) => o.slotId).join(", ")}`;
   if (b.type === "approval") return `approval card #${b.approvalId} (${b.title})`;
   if (b.type === "appointment") return `appointment card #${b.appointmentId}`;

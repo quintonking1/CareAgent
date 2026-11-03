@@ -11,6 +11,11 @@ export function fmtDay(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
+// Like fmtDay, but the calendar day in a given time zone (matches localDay).
+export function fmtLocalDay(iso: string, timeZone: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone });
+}
+
 // Event times are shown in the parent's local time zone.
 export function fmtDateTime(iso: string, timeZone: string) {
   return new Date(iso).toLocaleString("en-US", {

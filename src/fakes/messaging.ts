@@ -20,6 +20,9 @@ export const messaging = {
     writeJson(file(), [...all, sent]);
     return sent;
   },
+  all(): OutboxMessage[] {
+    return readJson<OutboxMessage[]>(file(), []).reverse();
+  },
   inbox(userId: number): OutboxMessage[] {
     return readJson<OutboxMessage[]>(file(), []).filter((m) => m.toUserId === userId).reverse();
   },

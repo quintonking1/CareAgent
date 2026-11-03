@@ -5,6 +5,7 @@ import { DAILY_METRICS, METRIC_INFO, type Metric } from "@/fakes/wearables";
 import type { Block } from "@/lib/blocks";
 import { DAY_MS, dateKey, now } from "@/lib/clock";
 import { alertBlock, series } from "@/lib/thread";
+import { getVitals } from "@/lib/overview";
 import { RULES, type Evidence, type RuleId } from "@/rules/alerts";
 import { ACTION_TYPES, createApproval, finishApproval, requireApproved, type ActionType } from "@/lib/approvals";
 import { ToolError } from "@/lib/errors";
@@ -406,6 +407,27 @@ export const TOOLS: Record<string, Tool> = {
         caption,
       });
       return { shown: true };
+    },
+  },
+
+  show_health_overview: {
+    description: "Render every daily wearable chart (resting heart rate, HRV, sleep, steps) together, each against the parent's own baseline, with any open alert's readings and threshold marked on its chart. Use this for general check-ins like 'Is he okay this week?'. Returns the numbers so you can cite them.",
+    parameters: obj({ caption: { type: "string" } }, []),
+    label: () => "Drawing all of the health charts",
+    run: (a, ctx) => {
+      const caption = a.caption ? String(a.caption) : undefined;
+      if (caption) checkWellness(caption);
+      const vitals = getVitals(ctx.db, ctx.profile.id);
+      if (!vitals.length) throw new ToolError("no readings synced yet");
+      ctx.blocks.push({ type: "health_overview", parentName: ctx.profile.parentName, caption, vitals });
+      return {
+        shown: true,
+        metrics: vitals.map((v) => ({
+          metric: v.metric, latest: v.latest, baseline: Math.round(v.baseline * 10) / 10,
+          change_vs_baseline_pct: Math.round(v.deltaPct),
+          open_alert: v.alert ? { alert_id: v.alert.id, label: v.alert.label, evidence: v.alert.description } : null,
+        })),
+      };
     },
   },
 
