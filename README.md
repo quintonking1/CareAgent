@@ -216,11 +216,11 @@ Without an API key the app still runs: alerts are posted with their rule descrip
 | `OPENAI_MODEL` | `gpt-4.1-mini` | Any OpenAI chat model with tool calling. |
 | `DATABASE_URL` | `careagent.db` (`/tmp/careagent.db` on Vercel) | SQLite file for app state. |
 | `FAKES_STATE_DIR` | `data/fakes/state` (`/tmp/careagent-fakes` on Vercel) | Where the fake services record bookings, calendar and messages. |
-| `DEMO_PASSWORD` | — | Password-protects the whole site (any username). Required on Vercel; the deployed site refuses requests without it. |
+| `DEMO_PASSWORD` | — | Optional. Password-protects the whole site (any username). |
 
 ### Deploying to Vercel
 
-Set `OPENAI_API_KEY` and `DEMO_PASSWORD` in Project → Settings → Environment Variables. Data lives in `/tmp`, so each server instance starts from a fresh seeded demo and state can reset at any time. That's fine for a demo but not for real use. Put a monthly spend limit on the OpenAI key as a backstop.
+Set `OPENAI_API_KEY` (and optionally `DEMO_PASSWORD`) in Project → Settings → Environment Variables. Data lives in `/tmp`, so each server instance starts from a fresh seeded demo and state can reset at any time. That's fine for a demo but not for real use. Without `DEMO_PASSWORD` anyone with the URL can use the agent, so use a short-lived key with a spend limit.
 
 | Command | What it does |
 |---|---|

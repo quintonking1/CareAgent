@@ -1,14 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-// Site-wide password gate (HTTP Basic Auth, any username). Protects the pages and, more importantly,
-// /api/chat, which spends the OpenAI key. Off locally unless DEMO_PASSWORD is set; on Vercel it fails
-// closed so a deployment without a password is never open to the public.
+// Optional site-wide password gate (HTTP Basic Auth, any username). Off unless DEMO_PASSWORD is set;
+// when set it protects the pages and /api/chat, which spends the OpenAI key.
 export function middleware(req: NextRequest) {
   const password = process.env.DEMO_PASSWORD;
-  if (!password) {
-    if (process.env.VERCEL) return new NextResponse("Set DEMO_PASSWORD in the Vercel project settings.", { status: 503 });
-    return NextResponse.next();
-  }
+  if (!password) return NextResponse.next();
 
   const header = req.headers.get("authorization") ?? "";
   if (header.startsWith("Basic ")) {
