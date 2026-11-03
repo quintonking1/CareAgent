@@ -171,7 +171,7 @@ Real ones we hit, useful for slide 11 and Q&A:
 - **Speed and variability.** Each agent turn takes about 2–8 seconds, and the wording changes run to run, which makes live demos less predictable.
 - **Safety can't live in the prompt alone.** Anything that must hold every time (approvals, no diagnoses) had to be enforced in code.
 - **Coding agents act in your environment.** At one point the coding agent stopped a teammate's running dev server while restarting its own. It's powerful but needs review and sensible permissions.
-- **Hosting has trade-offs.** The prototype stores data in local files, which serverless hosts like Vercel can't keep, so we demo it locally.
+- **Hosting has trade-offs.** The prototype stores data in local files, which serverless hosts like Vercel can't keep. On Vercel it falls back to /tmp, so the hosted demo resets often; the main demo runs locally.
 
 ### 12 · What's next
 
@@ -214,7 +214,13 @@ Without an API key the app still runs: alerts are posted with their rule descrip
 |---|---|---|
 | `OPENAI_API_KEY` | — | Required for the agent. Server-side only. |
 | `OPENAI_MODEL` | `gpt-4.1-mini` | Any OpenAI chat model with tool calling. |
-| `DATABASE_URL` | `careagent.db` | SQLite file for app state. |
+| `DATABASE_URL` | `careagent.db` (`/tmp/careagent.db` on Vercel) | SQLite file for app state. |
+| `FAKES_STATE_DIR` | `data/fakes/state` (`/tmp/careagent-fakes` on Vercel) | Where the fake services record bookings, calendar and messages. |
+| `DEMO_PASSWORD` | — | Password-protects the whole site (any username). Required on Vercel; the deployed site refuses requests without it. |
+
+### Deploying to Vercel
+
+Set `OPENAI_API_KEY` and `DEMO_PASSWORD` in Project → Settings → Environment Variables. Data lives in `/tmp`, so each server instance starts from a fresh seeded demo and state can reset at any time. That's fine for a demo but not for real use. Put a monthly spend limit on the OpenAI key as a backstop.
 
 | Command | What it does |
 |---|---|
