@@ -7,7 +7,7 @@ import { getCurrentProfile } from "@/lib/profile";
 import { SubmitButton } from "@/components/submit-button";
 import { Topbar } from "@/components/topbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { dailyReview, resetDemo, syncDevice, triggerScenario } from "../actions";
+import { dailyReview, resetDemo, syncDevice, triggerScenario } from "@/app/actions";
 
 export default function DemoPage() {
   const db = getDb();

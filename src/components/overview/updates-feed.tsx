@@ -62,7 +62,7 @@ export function UpdatesFeed({ items, parentName }: { items: UpdateItem[]; parent
       <CardHeader>
         <CardTitle className="text-base">Latest updates</CardTitle>
         <CardAction>
-          <Button asChild variant="ghost" size="sm" className="rounded-full"><Link href="/"><MessageSquare /> Open chat</Link></Button>
+          <Button asChild variant="ghost" size="sm" className="rounded-full"><Link href="/chat"><MessageSquare /> Open chat</Link></Button>
         </CardAction>
       </CardHeader>
       <CardContent>

@@ -16,7 +16,7 @@ export function StatusSources({ alerts, metrics }: {
     <div className="flex flex-wrap gap-1.5">
       {alerts.map((a) => (
         <Badge key={a.id} asChild variant="outline" className="rounded-full font-normal">
-          <Link href="/"><Bell /> {a.label}</Link>
+          <Link href="/chat"><Bell /> {a.label}</Link>
         </Badge>
       ))}
       {metrics.map((m) => (

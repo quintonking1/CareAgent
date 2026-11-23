@@ -77,8 +77,8 @@ export function AppSidebar({ parentName, openAlerts, viewer, members }: {
   const close = () => isMobile && setOpenMobile(false);
   const first = parentName.split(" ")[0];
   const nav = [
-    { href: "/", label: "Chat", icon: MessageSquare },
-    { href: "/home", label: "Overview", icon: House, badge: openAlerts },
+    { href: "/chat", label: "Chat", icon: MessageSquare },
+    { href: "/overview", label: "Overview", icon: House, badge: openAlerts },
     { href: "/profile", label: `${first}'s profile`, icon: UserRound },
   ];
 
@@ -107,7 +107,7 @@ export function AppSidebar({ parentName, openAlerts, viewer, members }: {
           <SidebarMenu>
             {nav.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={item.href === "/" ? path === "/" : path.startsWith(item.href)}>
+                <SidebarMenuButton asChild isActive={path.startsWith(item.href)}>
                   <Link href={item.href} onClick={close}>
                     <item.icon />
                     <span>{item.label}</span>
