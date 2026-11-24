@@ -1,6 +1,7 @@
 import type { Db } from "./index";
 import * as s from "./schema";
-import { ingestHistory } from "@/lib/ingest";
+import { eq } from "drizzle-orm";
+import { applyScenario, ingestHistory } from "@/lib/ingest";
 import { resetState } from "@/fakes/store";
 
 const DAY = 86_400_000;
@@ -62,4 +63,19 @@ export function seedDemo(db: Db) {
 
 
   return { profileId: profile.id, mayaId: maya.id };
+}
+
+// The demo the phone-first home shows: the base family plus Dad's 5-day resting heart rate rise
+// (which opens an alert), Lisinopril 5 days from running out at Walgreens Folsom Blvd, and his
+// Dec 15 primary care visit. No agent run here; alerts wait for the agent's next event or question.
+export function seedHomeDemo(db: Db) {
+  const seeded = seedDemo(db);
+  db.update(s.careProfiles).set({ pharmacy: "Walgreens Folsom Blvd" }).run();
+  db.update(s.medications).set({ lastFillAt: daysAgo(25) }).where(eq(s.medications.name, "Lisinopril")).run();
+  const patel = db.select().from(s.providers).where(eq(s.providers.name, "Dr. Anita Patel")).get()!;
+  db.insert(s.appointments).values({
+    careProfileId: seeded.profileId, providerId: patel.id, startAt: "2026-12-15T22:00:00.000Z", zocdocConfirmation: "ZD-DEMO-1215",
+  }).run();
+  applyScenario(db, seeded.profileId, "rising_resting_hr");
+  return seeded;
 }

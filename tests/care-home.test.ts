@@ -93,3 +93,15 @@ describe("home state", () => {
     expect(homeView({ ...INITIAL_STATE, bookingSnoozed: true, refillSnoozed: true }).cards).toHaveLength(0);
   });
 });
+
+describe("home demo seed", () => {
+  it("matches what the home shows: an open resting HR alert, Lisinopril due, Dr. Patel booked", async () => {
+    const { seedHomeDemo } = await import("@/db/seed");
+    const home = createDb(":memory:");
+    seedHomeDemo(home);
+    const alerts = home.select().from(schema.alerts).all();
+    expect(alerts.map((a) => [a.ruleId, a.status])).toContainEqual(["resting_hr_elevated", "open"]);
+    expect(home.select().from(schema.careProfiles).get()!.pharmacy).toBe("Walgreens Folsom Blvd");
+    expect(home.select().from(schema.appointments).all()).toHaveLength(1);
+  });
+});

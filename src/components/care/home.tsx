@@ -50,7 +50,7 @@ export function Home({ view, state, onAction, onAskVital, onAllCharts, onMessage
 
         {/* Headline + status */}
         <section aria-label="How Dad is doing" className="pt-3">
-          <h1 className="text-[28px] font-semibold leading-[1.15] tracking-[-0.6px]">{view.h1}</h1>
+          <h1 className="text-[28px] font-extrabold leading-[1.15] tracking-[-0.6px]">{view.h1}</h1>
           <p className="mt-2 text-base leading-[1.45] text-ink-body">{view.sub}</p>
           <div role="status" aria-live="polite">
             {view.status && <div className="mt-4 rounded-[14px] bg-ok-tint px-4 py-3 text-[15px] font-bold text-ok">{view.status}</div>}

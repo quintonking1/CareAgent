@@ -57,7 +57,7 @@ export function HrChartSheet({ onClose, onMonth, onBook }: { onClose: () => void
       footer={<SheetFooter placeholder="Ask about heart rate" onAsk={ask} busy={busy} />}>
       <div className="rounded-[18px] border-[1.5px] border-coral-line bg-coral-tint p-3.5">
         <div className="flex items-center justify-between text-xs font-semibold text-coral-ink"><span>Resting heart rate</span><span>Last 14 days</span></div>
-        <p className="mt-1.5 text-base font-bold">72 bpm today</p>
+        <p className="mt-1.5 text-base font-extrabold">72 bpm today</p>
         <svg viewBox="0 0 300 60" width="100%" height="60" preserveAspectRatio="none" role="img" aria-label="Resting heart rate, last 14 days: near 64, then above 70 for 5 days" className="mt-1.5">
           <line x1="0" y1={y(HR_USUAL)} x2="300" y2={y(HR_USUAL)} stroke="#8C2A13" strokeOpacity="0.35" strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
           <polyline points={pts} fill="none" stroke="#B1361A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
@@ -100,7 +100,7 @@ export function HrMonthSheet({ onClose, onBack, onFindTime }: { onClose: () => v
       </div>
       <div>
         <p className="text-[13px] text-ink-2">{from} to Nov 16</p>
-        <p className="mt-0.5 text-[44px] font-bold leading-none tracking-[-1.5px]">72<span className="text-base font-semibold tracking-normal text-ink-2"> bpm today</span></p>
+        <p className="mt-0.5 text-[44px] font-extrabold leading-none tracking-[-1.5px]">72<span className="text-base font-semibold tracking-normal text-ink-2"> bpm today</span></p>
       </div>
       <div className="rounded-[20px] bg-coral-tint px-3 pb-2 pt-3.5">
         <svg viewBox="0 0 330 150" width="100%" height="150" role="img" aria-label={`Resting heart rate, ${range.toLowerCase()}: flat near 64 until 5 days ago, then 70 to 73`}>
@@ -135,7 +135,7 @@ function Stat({ label, value, alert }: { label: string; value: string; alert?: b
   return (
     <div className={`rounded-2xl border p-3 ${alert ? "border-coral-line bg-[#FFFAF8] text-coral-ink" : "border-line"}`}>
       <p className={`text-xs ${alert ? "" : "text-ink-2"}`}>{label}</p>
-      <p className="mt-1 text-xl font-bold">{value}</p>
+      <p className="mt-1 text-xl font-extrabold">{value}</p>
     </div>
   );
 }
