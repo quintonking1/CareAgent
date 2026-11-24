@@ -18,7 +18,7 @@ export function ConfirmationPage({ title, sub, children, onDone, secondary }: {
       <div aria-hidden className="mt-24 flex size-[72px] items-center justify-center rounded-full bg-teal-tint text-teal">
         <Check className="size-[34px]" strokeWidth={2.6} />
       </div>
-      <h1 id="confirm-h" className="mt-6 text-[28px] font-semibold leading-[1.15] tracking-[-0.6px]">{title}</h1>
+      <h1 id="confirm-h" className="mt-6 text-[28px] font-bold leading-[1.15] tracking-[-0.6px]">{title}</h1>
       <p className="mt-2 text-base text-ink-body" role="status">{sub}</p>
       {children}
       <div className="flex-1" />
@@ -116,7 +116,7 @@ export function BriefPage({ slot, questions, onQuestions, onBack, onReady }: {
     <main className="flex min-h-svh flex-col" aria-labelledby="brief-h">
       <header className="px-3 pt-9"><Back onClick={onBack} /></header>
       <div className="px-5 pt-2">
-        <h1 id="brief-h" className="text-[28px] font-semibold tracking-[-0.6px]">Brief for Dr. Lee</h1>
+        <h1 id="brief-h" className="text-[28px] font-bold tracking-[-0.6px]">Brief for Dr. Lee</h1>
         <p className="mt-2 text-[15px] text-ink-body">{slot.day} at {slot.time}, cardiology follow-up</p>
       </div>
 
@@ -191,7 +191,7 @@ export function BriefReadyPage({ slot, questionCount, onShow, onShare, onDone, s
 }) {
   return (
     <main className="flex min-h-svh flex-col px-5 pb-7" aria-labelledby="ready-h">
-      <h1 id="ready-h" className="mt-28 text-[30px] font-semibold leading-[1.15] tracking-[-0.6px]">Brief is ready</h1>
+      <h1 id="ready-h" className="mt-28 text-[30px] font-bold leading-[1.15] tracking-[-0.6px]">Brief is ready</h1>
       <p className="mt-2 text-base text-ink-body">{DR_LEE.short}, {slot.day} at {slot.time}</p>
       <p className="mt-4 text-[15px] leading-normal text-ink-body">It includes his heart rate trend, 3 medications, 2 alerts and {questionCount} questions.</p>
       {shared && <p role="status" className="mt-4 rounded-[14px] bg-ok-tint px-4 py-3 text-[15px] font-bold text-ok">Shared with Dr. Lee&apos;s office</p>}
@@ -216,7 +216,7 @@ export function BriefShowPage({ slot, questions, onClose }: { slot: Slot; questi
         <p className="text-sm text-ink-2">Robert Hayes, born Apr 12, 1951</p>
         <button type="button" onClick={onClose} aria-label="Close" className="flex size-11 items-center justify-center rounded-full bg-soft"><X className="size-4" strokeWidth={2.4} /></button>
       </div>
-      <h1 id="show-h" className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.6px]">For {DR_LEE.name}</h1>
+      <h1 id="show-h" className="mt-4 text-[32px] font-bold leading-tight tracking-[-0.6px]">For {DR_LEE.name}</h1>
       <p className="mt-1 text-lg text-ink-body">{slot.day} at {slot.time}</p>
       <section className="mt-8">
         <h2 className="text-xl font-semibold">Resting heart rate</h2>
@@ -244,7 +244,7 @@ export function VisitNotesPage({ onBack, onSave, onFindTimes }: { onBack: () => 
     <main className="flex min-h-svh flex-col" aria-labelledby="notes-h">
       <header className="flex items-center gap-2 px-3 pt-9"><Back onClick={onBack} /><span className="text-[13px] text-ink-2">Thu, Dec 3</span></header>
       <div className="px-5 pt-2">
-        <h1 id="notes-h" className="text-[26px] font-semibold tracking-[-0.5px]">How did Dr. Lee&apos;s visit go?</h1>
+        <h1 id="notes-h" className="text-[26px] font-bold tracking-[-0.5px]">How did Dr. Lee&apos;s visit go?</h1>
         <label htmlFor="visit-notes" className="mt-5 block text-[13px] font-bold">Your notes</label>
         <textarea id="visit-notes" rows={4} value={notes} onChange={(e) => setNotes(e.target.value)}
           className="mt-2 w-full resize-none rounded-[14px] border border-line-strong p-3 text-[15px] leading-snug outline-none focus:border-ink" />

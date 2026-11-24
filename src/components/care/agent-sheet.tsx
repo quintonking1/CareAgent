@@ -9,8 +9,8 @@ import type { AskTurn } from "./use-ask";
 import { AgentMark, AskBox, Chip, PrimaryButton, ProgressSteps, UserBubble } from "./ui";
 
 // The shared bottom sheet (Flows 1 and 3, and every "Ask about this"). Slides up over the dimmed
-// home; swipe the handle down, tap outside, press Esc or tap X to dismiss. Built on the same Radix
-// Dialog as components/ui/sheet.tsx, so it gets role="dialog", focus trapping and Esc for free.
+// home; swipe the handle down, tap outside, press Esc or tap X to dismiss. Built on Radix
+// Dialog, so it gets role="dialog", focus trapping and Esc for free.
 export function AgentSheet({ open, onClose, title, via, onBack, tall, footer, children, scrollKey }: {
   open: boolean;
   onClose: () => void;

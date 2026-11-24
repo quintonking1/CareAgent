@@ -21,9 +21,9 @@ npm run dev                 # http://localhost:3000
 
 Open http://localhost:3000 on a phone-sized window (Chrome DevTools' device toolbar, 390 px wide). That's the phone-first home: the UI leads and the agent works behind it. Use the **Demo** button (top right) or `/?step=<id>` to jump to any step of the three flows (book Dr. Lee through Zocdoc, the pre-visit brief, refill Lisinopril through Walgreens) or to the stale-watch and fall-alert states. The home's data is fixed demo data in `src/lib/care-demo.ts`.
 
-The original chat-first app is still at `/chat`, with `/overview`, `/profile` and `/demo`. To make the agent's answers match the home's numbers, open `/demo` and trigger **Rising resting heart rate** (the seed has Dad's usual resting heart rate at 64, like the design). Use **Reset demo data** to start over.
+Every server start reseeds the demo to match the home: Dad's resting heart rate above his usual 64 for 5 days (with an open alert), Lisinopril 5 days from running out at Walgreens Folsom Blvd, and his Dec 15 visit with Dr. Patel. **Demo, Reset demo data** does the same without a restart.
 
-Without an API key the app still runs: alerts are posted with their rule description and chat shows that the agent is offline.
+Without an API key the app still runs: the home works and questions get canned answers.
 
 | Variable | Default | Purpose |
 |---|---|---|
@@ -45,7 +45,7 @@ Set `OPENAI_API_KEY` in Project → Settings → Environment Variables. Data liv
 
 ## How it works
 
-**One agent, one loop** (`src/agent/careagent.ts`). Chat messages, tapped buttons, alerts, approvals, and the daily review all become input to the same tool-use loop; the model chooses the tools. Replies stream to the browser with a step trace.
+**One agent, one loop** (`src/agent/careagent.ts`). Questions from the home, alerts, approvals and the daily review all become input to the same tool-use loop; the model chooses the tools. Replies stream to the browser with a step trace.
 
 | Kind | Tools (`src/agent/tools.ts`) |
 |---|---|
@@ -54,9 +54,9 @@ Set `OPENAI_API_KEY` in Project → Settings → Environment Variables. Data liv
 | Ask a person | `request_approval` |
 | Act (approval required) | `zocdoc_book_appointment`, `zocdoc_cancel_appointment` |
 | Family | `add_to_family_calendar`, `notify_care_circle` |
-| Render in chat | `show_alert_card`, `show_trend_chart`, `show_slot_picker`, `show_appointment_card`, `show_quick_replies` |
+| Render blocks (not used by the home yet) | `show_alert_card`, `show_trend_chart`, `show_slot_picker`, `show_appointment_card`, `show_quick_replies` |
 
-**Two surfaces.** The classic chat gets every tool. The phone-first home calls the agent through `/api/care/ask` with `surface: "ask"`: read tools only, plus a line saying what the person is looking at. On the home, the Book and Approve refill buttons are the approval, so the agent explains and answers but never acts there.
+**The home only asks.** The phone-first home calls the agent through `/api/care/ask` with `surface: "ask"`: read tools only, plus a line saying what the person is looking at. On the home, the Book and Approve refill buttons are the approval, so the agent explains and answers but never acts there.
 
 **The approval gate** (`src/lib/approvals.ts`). External tools call `requireApproved()` and act only on the approved payload. A caregiver must approve, plus Robert when his consent requires it; any decline wins; revoked consent blocks everything.
 
@@ -73,13 +73,14 @@ Set `OPENAI_API_KEY` in Project → Settings → Environment Variables. Data liv
 
 App state (chat, alerts, approvals, appointments, medications) is in SQLite.
 
-**Stack:** Next.js 15, TypeScript, shadcn/ui + Tailwind CSS 4, OpenAI tool calling, SQLite + Drizzle ORM, Vitest.
+**Stack:** Next.js 15, TypeScript, Tailwind CSS 4 (DM Sans, care tokens in `globals.css`), Radix Dialog, OpenAI tool calling, SQLite + Drizzle ORM, Vitest.
 
 ```
 src/agent/    the loop, tools, system prompt, safety checks, event triggers
-src/app/      pages (Chat, Overview, Profile, Demo) and API routes
+src/app/      the home page and API routes (/api/care/ask, zocdoc, walgreens, reset)
+src/components/care/  home, bottom sheet, flows, confirmation pages
 src/fakes/    wearables, Zocdoc, family calendar, messaging
-src/lib/      approval gate, watch sync, chat thread, shared types
+src/lib/      approval gate, watch sync, agent thread, shared types, home demo state (care-demo.ts)
 src/rules/    alert rules
 tests/        43 tests with a scripted model
 PRD.md        product requirements
@@ -91,7 +92,9 @@ PRD.md        product requirements
 
 ## Status
 
-**Built:** care circle and viewer switcher; fake wearables and alert rules; chat-first agent with summaries, charts, and the Overview status line; approvals; Zocdoc search, book, and cancel; family calendar; care-circle notifications; Overview and Robert's profile.
+**Built:** phone-first home with the booking, visit brief and refill flows on fake Zocdoc and Walgreens APIs; the agent answering "Ask about this" in a read-only mode; fake wearables and alert rules; the agent backend (approvals, Zocdoc search and booking, family calendar, care-circle notifications).
+
+**Not yet:** the home still runs on fixed demo state in the browser. Next is moving it onto database state, with the agent creating Needs you proposals and the approved action running in code.
 
 **Next:** refills, medication changes from visit summaries, the pre-visit brief, messaging the doctor's office, and a consent-revoke flow in the UI.
 

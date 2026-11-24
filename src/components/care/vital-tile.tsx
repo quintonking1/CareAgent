@@ -19,7 +19,7 @@ export function VitalTile({ vital, onAsk }: { vital: Vital; onAsk: () => void })
         <span className={`text-[13px] font-semibold ${t.fg}`}>{vital.label}</span>
         <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${t.chipBg} ${t.chipFg}`}>{vital.chip}</span>
       </div>
-      <p className="text-[32px] font-semibold leading-none tracking-[-1px]">
+      <p className="text-[32px] font-extrabold leading-none tracking-[-1px]">
         {vital.value}
         {vital.unit && <span className={`text-sm font-semibold tracking-normal ${t.fg}`}> {vital.unit}</span>}
       </p>

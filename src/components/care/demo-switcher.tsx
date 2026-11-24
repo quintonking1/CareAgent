@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { FlaskConical, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { DEMO_STEPS } from "@/lib/care-demo";
 
 // Dev-only control for jumping to any step of the three flows. Not part of the product design.
@@ -30,8 +30,16 @@ export function DemoSwitcher({ current, onJump, online }: { current: string; onJ
             </div>
           ))}
           <div className="mt-1 border-t border-line pt-2">
-            <Link href="/demo" className="flex min-h-10 items-center rounded-lg px-2 text-sm hover:bg-soft">Data and scenario controls</Link>
-            <Link href="/chat" className="flex min-h-10 items-center rounded-lg px-2 text-sm hover:bg-soft">Classic chat</Link>
+            <button type="button" className="flex min-h-10 w-full items-center rounded-lg px-2 text-left text-sm hover:bg-soft"
+              onClick={async () => {
+                const res = await fetch("/api/care/reset", { method: "POST" });
+                if (!res.ok) return toast.error("Couldn't reset the demo data.");
+                onJump("home");
+                setOpen(false);
+                toast.success("Demo data reset.");
+              }}>
+              Reset demo data
+            </button>
           </div>
         </nav>
       )}
