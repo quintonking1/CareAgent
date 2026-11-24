@@ -20,7 +20,7 @@ export async function triggerScenario(formData: FormData) {
   const { alerts } = applyScenario(db, getCurrentProfile(db).id, name);
   await announceAlerts(db, alerts);
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/chat");
 }
 
 // Pick up hand edits to data/fakes/wearables/*.json.
@@ -30,7 +30,7 @@ export async function syncDevice() {
   syncWearable(db, id);
   await announceAlerts(db, runAlertEngine(db, id));
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/chat");
 }
 
 export async function dailyReview() {
@@ -38,13 +38,13 @@ export async function dailyReview() {
   const db = getDb();
   await runDailyReview(db, getCurrentProfile(db).id);
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/chat");
 }
 
 export async function resetDemo() {
   seedDemo(getDb());
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/chat");
 }
 
 export async function dismissAlert(alertId: number) {

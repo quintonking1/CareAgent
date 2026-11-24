@@ -19,12 +19,22 @@ export type AgentInput =
   | { kind: "message"; userId: number; text: string }
   | { kind: "event"; text: string; actorId?: number };
 
+// Where the agent is running. "chat" is the classic thread with every tool. "ask" is the phone-first
+// home: a question asked from a card, chart or sheet. The UI owns actions there (Book, Approve refill
+// buttons are the approval), so the agent only gets read tools and answers in plain text.
+export type Surface = { kind: "chat" } | { kind: "ask"; context?: string };
+
+export const ASK_TOOLS = new Set([
+  "get_care_profile", "get_readings", "get_alerts", "get_medications", "get_appointments", "get_providers", "zocdoc_search_slots",
+]);
+
 export interface RunOptions {
   db: Db;
   careProfileId: number;
   input: AgentInput;
   llm?: LLM;
   onEvent?: (e: StreamEvent) => void;
+  surface?: Surface;
 }
 
 function blockSummary(b: Block) {
@@ -47,7 +57,7 @@ function historyFor(db: Db, messages: ChatMessage[]): ChatMsg[] {
   });
 }
 
-export async function runAgent({ db, careProfileId, input, llm, onEvent = () => {} }: RunOptions): Promise<{
+export async function runAgent({ db, careProfileId, input, llm, onEvent = () => {}, surface = { kind: "chat" } }: RunOptions): Promise<{
   input: SerializedMessage;
   reply: SerializedMessage;
 }> {
@@ -67,9 +77,12 @@ export async function runAgent({ db, careProfileId, input, llm, onEvent = () => 
   onEvent({ type: "input", message: inputMsg });
 
   const messages: ChatMsg[] = [
-    { role: "system", content: systemPrompt(profile, viewer ?? { name: "the care circle", role: "primary_caregiver" }) },
+    { role: "system", content: systemPrompt(profile, viewer ?? { name: "the care circle", role: "primary_caregiver" }, surface) },
     ...historyFor(db, getThread(db, careProfileId, HISTORY_MESSAGES)),
   ];
+
+  const toolDefs = surface.kind === "ask" ? TOOL_DEFS.filter((d) => ASK_TOOLS.has(d.function.name)) : TOOL_DEFS;
+  const allowed = new Set(toolDefs.map((d) => d.function.name));
 
   const ctx: ToolCtx = { db, profile, blocks: [], actorId: input.kind === "message" ? input.userId : input.actorId };
   const steps: TraceStep[] = [];
@@ -83,7 +96,7 @@ export async function runAgent({ db, careProfileId, input, llm, onEvent = () => 
   try {
     llm ??= new OpenAILLM();
     for (;;) {
-      const turn = await llm.turn(messages, TOOL_DEFS, (text) => onEvent({ type: "delta", text }));
+      const turn = await llm.turn(messages, toolDefs, (text) => onEvent({ type: "delta", text }));
       if (!turn.toolCalls.length) {
         text = turn.content.trim() || preamble;
         // Code-level wellness check on the final reply; one chance to rewrite.
@@ -119,7 +132,7 @@ export async function runAgent({ db, careProfileId, input, llm, onEvent = () => 
         let ok = true;
         try {
           args = JSON.parse(call.arguments || "{}");
-          const tool = TOOLS[call.name];
+          const tool = allowed.has(call.name) ? TOOLS[call.name] : undefined;
           if (!tool) throw new ToolError(`unknown tool ${call.name}`);
           const before = ctx.blocks.length;
           result = await tool.run(args, ctx);

@@ -5,6 +5,44 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+    /* CareAgent home design tokens (phone-first home at "/"). */
+    --font-care: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+    --color-ink: #222222;
+    --color-ink-body: #3F3F3F;
+    --color-ink-2: #6A6A6A;
+    --color-line: #EBEBEB;
+    --color-line-strong: #DDDDDD;
+    --color-soft: #F7F7F7;
+    --color-teal: #0A7A74;
+    --color-teal-ink: #0A5C57;
+    --color-teal-tint: #E8F4F2;
+    --color-teal-ring: #CFE8E4;
+    --color-coral: #B1361A;
+    --color-coral-ink: #8C2A13;
+    --color-coral-tint: #FDF0EC;
+    --color-coral-line: #F0B3A3;
+    --color-badge: #C4391D;
+    --color-amber: #8A5100;
+    --color-amber-ink: #6B3F00;
+    --color-amber-tint: #FFF4DB;
+    --color-amber-line: #F3D48A;
+    --color-ok: #17602F;
+    --color-ok-tint: #EAF5EE;
+    --color-indigo-tint: #EEF0FB;
+    --color-indigo-ink: #333C8A;
+    --color-indigo-line: #4A54B5;
+    --color-indigo-chip: #DDE1F6;
+    --color-tan-tint: #FBF1E4;
+    --color-tan-ink: #7A4A0E;
+    --color-tan-line: #A8651A;
+    --color-tan-chip: #F3E0C4;
+    --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.08);
+    --shadow-float: 0 6px 20px rgba(0, 0, 0, 0.12);
+    --shadow-sheet: 0 -8px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+@theme inline {
     --font-heading: Cambria, Georgia, "Times New Roman", serif;
     --color-chip: var(--chip);
     --font-sans: var(--font-sans);
@@ -156,3 +194,7 @@
 .prose-chat ol { list-style: decimal; padding-left: 1.25rem; }
 .prose-chat li + li { margin-top: 0.25em; }
 .prose-chat strong { font-weight: 600; }
+
+@keyframes ca-spin { to { transform: rotate(360deg); } }
+.ca-spin { animation: ca-spin 1s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .ca-spin { animation-duration: 3s; } }

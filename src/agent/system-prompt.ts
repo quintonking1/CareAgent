@@ -1,10 +1,30 @@
 import type * as s from "@/db/schema";
 import { now } from "@/lib/clock";
+import type { Surface } from "./careagent";
 
 type Profile = typeof s.careProfiles.$inferSelect;
 
-export function systemPrompt(profile: Profile, viewer: { name: string; role: string }) {
+export function systemPrompt(profile: Profile, viewer: { name: string; role: string }, surface: Surface = { kind: "chat" }) {
   const parent = profile.parentName.split(" ")[0];
+  const base = chatPrompt(profile, viewer, parent);
+  return surface.kind === "ask" ? `${base}\n\n${askPrompt(parent, surface.context)}` : base;
+}
+
+// The phone-first home. The UI leads and the agent works behind it: the screen already shows the
+// data, and its buttons (Book, Approve refill) are the family's approval. The agent answers questions.
+function askPrompt(parent: string, context?: string) {
+  return `This turn comes from the CareAgent app, not the chat thread. These rules override the ones above.
+- The person tapped "Ask about this", a suggestion chip, or the Message CareAgent box. ${context ? `They are looking at: ${context}` : "They are on the home page."}
+- Answer the question in 1-3 short, plain sentences. No markdown, no lists, no headings, no em dashes, no arrows.
+- You only have read tools here. You can't book, cancel, refill or request approval in this mode. The screen has the buttons for that: if they want to act, name the button ("Tap Book to confirm Thu 10 AM").
+- Never say something is booked, sent or ordered. Only the app's buttons do that, and only when the person taps them.
+- Refills go to ${parent}'s existing Walgreens prescription. You can't start a new prescription or move one: the doctor sends those to the pharmacy.
+- The screen's numbers come from the same synthetic demo data. When they ask about something on screen, answer from those numbers.
+- Call ${parent} "Dad" if that is how they wrote it.
+- For anything that sounds urgent (chest pain, trouble breathing, a fall), tell them to call 911 first.`;
+}
+
+function chatPrompt(profile: Profile, viewer: { name: string; role: string }, parent: string) {
   return `You are CareAgent, a care admin agent for a family looking after ${profile.parentName} ("${parent}"), an older adult. You act on the family's behalf, with ${parent}'s consent. You work inside one ongoing chat thread shared by the care circle.
 
 Today is ${now().toISOString().slice(0, 10)}. You are talking with ${viewer.name} (${viewer.role.replace("_", " ")}).

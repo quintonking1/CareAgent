@@ -39,7 +39,7 @@ export function IssuesPanel({ issues, hasUrgent }: { issues: Issue[]; hasUrgent:
               <AlertDescription>
                 <p>{issue.detail}</p>
                 <Button asChild variant="outline" size="sm" className="mt-2 h-7 rounded-full text-xs text-foreground">
-                  <Link href="/">{issue.cta}</Link>
+                  <Link href="/chat">{issue.cta}</Link>
                 </Button>
               </AlertDescription>
             </Alert>
